@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Data quality{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Data-quality log</h1>
+    <p class="muted">Every problem found while cleaning the raw files, and what was done about it.
+      Saved as <a href="{{ url_for('outputs', filename='data_quality_log.csv') }}">outputs/data_quality_log.csv</a>.</p>
+  </div>
+</div>
+
+<section class="grid-2">
+  <div class="card">
+    <h2>Findings by check</h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Dataset</th><th>Check</th><th class="r">Findings</th></tr></thead>
+      <tbody>
+      {% for s in summary %}
+        <tr class="clickable" onclick="location.href='{{ url_for('data_quality', check=s.check) }}'">
+          <td>{{ s.dataset }}</td><td><a href="{{ url_for('data_quality', check=s.check) }}">{{ s.check }}</a></td><td class="r">{{ s.count }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Category standardization map</h2>
+    <div class="table-wrap scroll-y">
+    <table>
+      <thead><tr><th>Standard category</th><th>Raw label</th><th>How</th><th class="r">Tickets</th></tr></thead>
+      <tbody>
+      {% for m in mapping %}
+        <tr><td><a href="{{ url_for('tickets', category=m.category) }}">{{ m.category }}</a></td>
+          <td><code>{{ m.category_raw }}</code></td><td class="muted">{{ m.category_method }}</td><td class="r">{{ m.tickets }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Log {% if check %}<span class="muted h-note">check = {{ check }} · <a href="{{ url_for('data_quality') }}">show all</a></span>{% endif %}</h2>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Dataset</th><th>Record</th><th>Check</th><th>Issue</th><th>Action taken</th></tr></thead>
+    <tbody>
+    {% for r in rows %}
+      <tr><td>{{ r.dataset }}</td>
+        <td>{% if r.dataset == 'incidents' %}<a href="{{ url_for('ticket_detail', ticket_id=r.record_id) }}">{{ r.record_id }}</a>{% else %}{{ r.record_id }}{% endif %}</td>
+        <td>{{ r.check }}</td><td>{{ r.issue }}</td><td>{{ r.action }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+{% endblock %}

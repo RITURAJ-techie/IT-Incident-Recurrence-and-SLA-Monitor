@@ -1,0 +1,5 @@
+priority,resolution_target_hours,description
+P1,4,Critical - business stopped
+P2,8,High - major function degraded
+P3,24,Medium - single user / workaround exists
+P4,72,Low - request or cosmetic issue

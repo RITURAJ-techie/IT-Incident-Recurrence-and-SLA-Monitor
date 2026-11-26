@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Not found{% endblock %}
+{% block content %}
+<h1>Not found</h1>
+<p class="muted">That page or ticket does not exist (it may have been deleted).</p>
+<p><a class="btn" href="{{ url_for('tickets') }}">Back to tickets</a></p>
+{% endblock %}

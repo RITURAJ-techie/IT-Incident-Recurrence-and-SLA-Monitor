@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% from "_macros.html" import pct_bar %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Incident intelligence dashboard</h1>
+    <p class="muted">Every number is calculated live from the database. Click any row to see the tickets behind it.</p>
+  </div>
+  <div class="actions">
+    <form method="post" action="{{ url_for('regenerate_report') }}">
+      <button class="btn">↻ Regenerate report</button>
+    </form>
+    <a class="btn" href="{{ url_for('outputs', filename='report.md') }}" target="_blank">Open report.md</a>
+  </div>
+</div>
+
+<section class="tiles">
+  <a class="tile" href="{{ url_for('tickets') }}">
+    <span class="tile-label">Tickets</span>
+    <span class="tile-value">{{ k.total_tickets }}</span>
+    <span class="tile-sub">{{ k.open_tickets }} still open</span>
+  </a>
+  <a class="tile" href="{{ url_for('tickets', sla_status='Breached') }}">
+    <span class="tile-label">SLA compliance</span>
+    <span class="tile-value">{{ k.sla_compliance_pct if k.sla_compliance_pct is not none else '—' }}<small>%</small></span>
+    <span class="tile-sub">{{ k.sla_met }} met · {{ k.sla_breached }} breached</span>
+  </a>
+  <a class="tile" href="{{ url_for('tickets', recurring='1') }}">
+    <span class="tile-label">Recurrence rate</span>
+    <span class="tile-value">{{ k.recurrence_rate_pct if k.recurrence_rate_pct is not none else '—' }}<small>%</small></span>
+    <span class="tile-sub">{{ k.recurring_tickets }} repeat tickets in {{ k.recurring_groups }} groups</span>
+  </a>
+  <a class="tile" href="{{ url_for('tickets', change='1') }}">
+    <span class="tile-label">After a change</span>
+    <span class="tile-value">{{ k.change_related_tickets }}</span>
+    <span class="tile-sub">opened ≤ {{ change_hours }} h after a change</span>
+  </a>
+  <a class="tile" href="{{ url_for('tickets', sla_status='Unknown') }}">
+    <span class="tile-label">SLA unknown</span>
+    <span class="tile-value">{{ k.sla_unknown }}</span>
+    <span class="tile-sub">resolved, but no valid resolution time</span>
+  </a>
+  <a class="tile" href="{{ url_for('data_quality') }}">
+    <span class="tile-label">Categories standardized</span>
+    <span class="tile-value">{{ k.raw_category_labels }}<small> → {{ k.standard_categories }}</small></span>
+    <span class="tile-sub">raw labels → standard categories</span>
+  </a>
+</section>
+
+<section class="grid-2">
+  <figure class="card chart">
+    <img src="{{ url_for('chart', name='sla_compliance_by_category') }}"
+         alt="Horizontal bar chart of SLA compliance percentage per standardized incident category. Values are listed in the table 'SLA by category' below.">
+  </figure>
+  <figure class="card chart">
+    <img src="{{ url_for('chart', name='incidents_by_service') }}"
+         alt="Stacked bar chart of incident tickets per service split into first occurrence and recurring. Values are listed in the table 'Service comparison' below.">
+  </figure>
+</section>
+
+<section class="card">
+  <h2>Recurrence hotspots <span class="muted h-note">same asset + category, repeated within {{ window_days }} days — problem-record candidates</span></h2>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Asset</th><th>Service</th><th>Category</th><th class="r">Tickets</th><th class="r">Recurring</th><th class="r">SLA breached</th><th>Linked changes</th><th>Source tickets</th></tr></thead>
+    <tbody>
+    {% for h in hotspots %}
+      <tr class="clickable" onclick="location.href='{{ url_for('tickets', key=h.recurrence_key) }}'">
+        <td><a href="{{ url_for('tickets', key=h.recurrence_key) }}">{{ h.asset_name }}</a> <span class="muted">{{ h.asset_id }}</span></td>
+        <td>{{ h.service }}</td><td>{{ h.category }}</td>
+        <td class="r">{{ h.tickets }}</td><td class="r"><strong>{{ h.recurring }}</strong></td><td class="r">{{ h.breached }}</td>
+        <td>{{ h.linked_changes or '—' }}</td>
+        <td class="ids">{% for tid in h.ticket_ids.split(', ') %}<a href="{{ url_for('ticket_detail', ticket_id=tid) }}" onclick="event.stopPropagation()">{{ tid }}</a>{% endfor %}</td>
+      </tr>
+    {% else %}<tr><td colspan="8" class="muted">No recurring incidents.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="card">
+  <h2>SLA by category</h2>
+  {% set rows = by_category %}{% set key = 'category' %}
+  {% include "_sla_table.html" %}
+</section>
+
+<section class="card">
+  <h2>SLA by priority</h2>
+  {% set rows = by_priority %}{% set key = 'priority' %}
+  {% include "_sla_table.html" %}
+</section>
+
+<section class="card">
+  <h2>Service comparison</h2>
+  {% set rows = by_service %}{% set key = 'service' %}
+  {% include "_sla_table.html" %}
+</section>
+
+<section class="grid-2 grid-wide-left">
+  <div class="card">
+    <h2>Asset comparison</h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Asset</th><th>Type</th><th class="r">Tickets</th><th class="r">Recurring</th><th>SLA</th><th class="r">Avg reassign.</th></tr></thead>
+      <tbody>
+      {% for a in by_asset %}
+        <tr class="clickable" onclick="location.href='{{ url_for('tickets', asset_id=a.asset_id) }}'">
+          <td><a href="{{ url_for('tickets', asset_id=a.asset_id) }}">{{ a.asset_name }}</a></td>
+          <td class="muted">{{ a.asset_type }}</td>
+          <td class="r">{{ a.tickets }}</td><td class="r">{{ a.recurring }}</td>
+          <td>{{ pct_bar(a.compliance_pct) }}</td>
+          <td class="r">{{ a.avg_reassignments | num(2) }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Tickets opened soon after a change</h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>Ticket</th><th>Asset</th><th>Change</th><th class="r">Hours after</th><th>SLA</th></tr></thead>
+      <tbody>
+      {% for c in changes %}
+        <tr>
+          <td><a href="{{ url_for('ticket_detail', ticket_id=c.ticket_id) }}">{{ c.ticket_id }}</a></td>
+          <td>{{ c.asset_name }}</td><td>{{ c.linked_change_id }}</td>
+          <td class="r">{{ c.hours_after_change | num }}</td><td>{{ c.sla_status }}</td>
+        </tr>
+      {% else %}<tr><td colspan="5" class="muted">None.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

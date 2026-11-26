@@ -1,0 +1,21 @@
+{% from "_macros.html" import pct_bar %}
+<div class="table-wrap">
+<table>
+  <thead><tr>
+    <th>{{ key | capitalize }}</th><th class="r">Tickets</th><th class="r">Met</th><th class="r">Breached</th>
+    <th class="r">Unknown</th><th class="r">Open</th><th>Compliance</th><th class="r">Avg hrs</th><th class="r">Recurring</th>
+  </tr></thead>
+  <tbody>
+  {% for r in rows %}
+    {% set link = url_for('tickets', **{key: r[key]}) %}
+    <tr class="clickable" onclick="location.href='{{ link }}'">
+      <td><a href="{{ link }}">{{ r[key] }}</a></td>
+      <td class="r">{{ r.tickets }}</td><td class="r">{{ r.met }}</td><td class="r">{{ r.breached }}</td>
+      <td class="r">{{ r.unknown }}</td><td class="r">{{ r.open }}</td>
+      <td>{{ pct_bar(r.compliance_pct) }}</td>
+      <td class="r">{{ r.avg_resolution_hours | num }}</td><td class="r">{{ r.recurring }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>

@@ -1,0 +1,13 @@
+asset_id,asset_name,asset_type,service,tickets,recurring,compliance_pct,avg_reassignments,change_related
+AST-008,Active Directory DC1,Server,Identity & Access,9,5,37.5,1.0,0
+AST-004,Exchange Server 01,Server,Email,7,4,57.1,0.14,1
+AST-009,Laptop Pool - Finance,Laptop,End User Computing,7,2,60.0,0.43,0
+AST-003,VPN Gateway,Firewall/VPN,Remote Access,6,3,50.0,1.0,3
+AST-007,HR Portal Web Server,Server,HR Portal,5,2,50.0,1.0,0
+AST-001,Core Switch A,Network Switch,Corporate Network,4,0,75.0,0.75,0
+AST-011,Printer Floor 2,Printer,Printing,4,2,66.7,0.25,0
+AST-010,Laptop Pool - Sales,Laptop,End User Computing,4,0,100.0,0.75,0
+AST-012,WiFi Controller,Network Controller,Corporate Network,3,1,0.0,0.67,0
+AST-005,SQL Cluster Node 1,Database Server,ERP,3,1,50.0,0.33,0
+AST-002,Core Switch B,Network Switch,Corporate Network,2,0,0.0,1.5,0
+AST-006,ERP App Server,Server,ERP,2,0,100.0,0.5,0

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% from "_macros.html" import sla_badge %}
+{% block title %}{{ t.ticket_id }}{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('tickets') }}">← All tickets</a></p>
+<div class="page-head">
+  <div>
+    <h1>{{ t.ticket_id }} <span class="pri pri-{{ t.priority }}">{{ t.priority }}</span></h1>
+    <p class="lead">{{ t.short_description }}</p>
+  </div>
+  <div class="actions">
+    <a class="btn" href="{{ url_for('ticket_edit', ticket_id=t.ticket_id) }}">✎ Edit</a>
+    <form method="post" action="{{ url_for('ticket_delete', ticket_id=t.ticket_id) }}"
+          onsubmit="return confirm('Delete {{ t.ticket_id }}? This cannot be undone.');">
+      <button class="btn btn-danger">Delete</button>
+    </form>
+  </div>
+</div>
+
+<section class="grid-2">
+  <div class="card">
+    <h2>Ticket</h2>
+    <dl class="kv">
+      <dt>Status</dt><dd>{{ t.status }}</dd>
+      <dt>Category</dt><dd>{{ t.category }}
+        {% if t.category_raw != t.category %}<span class="muted">— recorded as “{{ t.category_raw or 'blank' }}”, {{ t.category_method }}</span>{% endif %}</dd>
+      <dt>Opened</dt><dd>{{ t.opened_at | dt }}</dd>
+      <dt>Resolved</dt><dd>{{ t.resolved_at | dt }}</dd>
+      <dt>Assignment group</dt><dd>{{ t.assignment_group or '—' }}</dd>
+      <dt>Assigned to</dt><dd>{{ t.assigned_to or '—' }}</dd>
+      <dt>Reassignments</dt><dd>{{ t.reassignment_count if t.reassignment_count is not none and t.reassignment_count == t.reassignment_count else '—' }}</dd>
+      <dt>Data-quality flags</dt><dd>{% for fl in (t.data_quality_flags or '').split(';') if fl %}<span class="tag tag-dq">{{ fl | replace('_', ' ') }}</span>{% else %}<span class="muted">none</span>{% endfor %}</dd>
+    </dl>
+  </div>
+  <div class="card">
+    <h2>SLA &amp; context</h2>
+    <dl class="kv">
+      <dt>SLA status</dt><dd>{{ sla_badge(t.sla_status) }}</dd>
+      <dt>Target ({{ t.priority }})</dt><dd>{{ t.resolution_target_hours | num }} h</dd>
+      <dt>Resolution time</dt><dd>{{ (t.resolution_hours | num) ~ ' h' if t.resolution_hours is not none else '—' }}</dd>
+      <dt>Asset</dt><dd>{% if t.asset_id %}<a href="{{ url_for('tickets', asset_id=t.asset_id) }}">{{ t.asset_id }} · {{ t.asset_name }}</a>{% else %}—{% endif %}</dd>
+      <dt>Asset type / criticality</dt><dd>{{ t.asset_type }} / {{ t.criticality }}</dd>
+      <dt>Service</dt><dd><a href="{{ url_for('tickets', service=t.service) }}">{{ t.service }}</a></dd>
+      <dt>Recurring?</dt><dd>{% if t.is_recurring %}<span class="tag tag-rec">↻ yes</span> repeat of
+        <a href="{{ url_for('ticket_detail', ticket_id=t.previous_ticket_id) }}">{{ t.previous_ticket_id }}</a>
+        ({{ t.days_since_previous | num }} days later){% else %}No{% endif %}</dd>
+      <dt>Related change</dt><dd>{% if change %}<strong>{{ change.change_id }}</strong> — {{ change.summary }}
+        <span class="muted">({{ change.change_type }}, {{ change.implemented_at }}, {{ t.hours_after_change | num }} h before this ticket)</span>{% else %}None within {{ change_hours }} h{% endif %}</dd>
+    </dl>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Other tickets in the same recurrence group <span class="muted h-note">{{ t.recurrence_key or 'no asset — not grouped' }}</span></h2>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Ticket</th><th>Opened</th><th>Description</th><th class="r">Res. hrs</th><th>SLA</th></tr></thead>
+    <tbody>
+    {% for r in related %}
+      <tr><td><a href="{{ url_for('ticket_detail', ticket_id=r.ticket_id) }}">{{ r.ticket_id }}</a></td>
+        <td>{{ r.opened_at | dt }}</td><td>{{ r.short_description }}</td>
+        <td class="r">{{ r.resolution_hours | num }}</td><td>{{ sla_badge(r.sla_status) }}</td></tr>
+    {% else %}<tr><td colspan="5" class="muted">No other tickets on this asset with this category.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+{% endblock %}

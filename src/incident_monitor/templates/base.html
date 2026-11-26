@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Incident Monitor{% endblock %} · IT Incident Recurrence &amp; SLA Monitor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="{{ url_for('dashboard') }}">
+      <span class="brand-mark" aria-hidden="true">◎</span> Incident Recurrence &amp; SLA Monitor
+    </a>
+    <nav>
+      {% set ep = request.endpoint %}
+      <a href="{{ url_for('dashboard') }}" class="{{ 'on' if ep == 'dashboard' }}">Dashboard</a>
+      <a href="{{ url_for('tickets') }}" class="{{ 'on' if ep in ('tickets', 'ticket_detail', 'ticket_edit') }}">Tickets</a>
+      <a href="{{ url_for('data_quality') }}" class="{{ 'on' if ep == 'data_quality' }}">Data quality</a>
+      <a href="{{ url_for('ticket_new') }}" class="btn btn-primary btn-sm {{ 'on' if ep == 'ticket_new' }}">+ New ticket</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flashes">
+        {% for cat, msg in messages %}<div class="flash flash-{{ cat }}" role="status">{{ msg }}</div>{% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="wrap footer">
+  Data: 3 prepared CSV files + saved mock change-API response · cleaned &amp; stored in SQLite ·
+  recurrence = same asset + category within {{ window_days }} days
+</footer>
+</body>
+</html>

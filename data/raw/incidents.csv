@@ -1,0 +1,64 @@
+ticket_id,opened_at,resolved_at,status,priority,category,short_description,asset_id,assignment_group,assigned_to,reassignment_count
+INC01001,2026-09-02 12:15,2026-09-02 16:52,Resolved,P2,SW,ERP report generation fails,AST-006,Applications,applications.analyst1,0
+INC01002,2026-09-04 09:00,2026-09-04 23:31,Resolved,P3,Password Reset,Password reset request,AST-008,Identity Team,identity.analyst1,0
+INC01003,2026-09-05 08:30,2026-09-05 15:17,Resolved,Critical,Connectivity,WiFi disconnects every few minutes,AST-001,Network Ops,network.analyst1,0
+INC01004,2026-09-06 10:00,2026-09-07 03:59,resolved,Medium,Outlook,Outlook not syncing mailbox,AST-004,Messaging,messaging.analyst3,0
+INC01005,2026-09-07 12:15,,Resolved,P2,Laptop Hardware,Laptop overheating and shutting down,AST-009,Service Desk,service.analyst1,0
+INC01006,2026-09-07 14:00,2026-09-11 23:48,Resolved,P4,Account Access,New starter cannot log in,AST-008,Identity Team,identity.analyst2,2
+INC01007,2026-09-08 09:15,2026-09-09 00:49,Closed,3,Hardware,Docking station not detected,AST-010,Service Desk,service.analyst2,2
+INC01008,2026-09-09 12:00,2026-09-11 06:16,Resolved,4,Printing,Printer offline for all users,ast-011 ,Service Desk,service.analyst2,1
+INC01009,2026-09-10 10:00,2026-09-11 06:51,Resolved,p3,E-mail,Outlook not syncing mailbox,AST-004,Messaging,messaging.analyst3,0
+INC01010,2026-09-10 11:45,2026-09-10 08:45,Resolved,3,Network,WiFi disconnects every few minutes,AST-012,Network Ops,network.analyst2,0
+INC01011,2026-09-10 12:30,2026-09-11 12:10,Resolved,Medium,SW,HR portal login page slow,AST-007,Applications,applications.analyst1,0
+INC01012,2026-09-11 13:30,,Resolved,P2,IAM,Password reset request,AST-008,Identity Team,identity.analyst3,1
+INC01013,2026-09-11 14:00,2026-09-13 09:37,Resolved,p3,LAN/WAN,Intermittent connectivity drops,AST-012,Network Ops,network.analyst3,2
+INC01014,2026-09-11 14:45,2026-09-12 17:00,Resolved,P3,Password Reset,MFA prompt not received,AST-008,Identity Team,identity.analyst1,-1
+INC01015,2026-09-12 12:45,2026-09-12 14:02,Resolved,P2,Network,Users report slow network on floor 2,AST-001,Network Ops,network.analyst1,3
+INC01016,2026-09-13 10:00,2026-09-14 16:02,Resolved,P3,,Outlook not syncing mailbox,AST-004,Messaging,messaging.analyst3,0
+INC01017,2026-09-13 12:00,2026-09-16 19:06,Resolved,4,Printing,Printer offline for all users,AST-011,Service Desk,service.analyst1,0
+INC01018,2026-09-14 16:30,2026-09-15 05:55,resolved,High,NW,Packet loss on core uplink,AST-002,Network Ops,network.analyst2,2
+INC01019,2026-09-15 08:15,2026-09-16 19:42,Resolved,Medium,Login / Access,MFA prompt not received,AST-008,Identity Team,identity.analyst3,3
+INC01020,2026-09-15 09:00,2026-09-15 18:30,Resolved,high,Remote access,VPN tunnel drops after 10 minutes,AST-003,Network Ops,network.analyst1,0
+INC01021,2026-09-16 09:00,2026-09-16 12:00,Resolved,,Remote access,VPN tunnel drops after 10 minutes,AST-003,Network Ops,network.analyst3,3
+INC01022,2026-09-16 10:15,2026-09-19 17:24,Closed,4,SQL,Database backup job failed,AST-005,Database Team,database.analyst1,0
+INC01023,2026-09-17 08:45,2026-09-18 19:40,Resolved,P3,Mail,Shared mailbox not accessible,AST-004,Messaging,messaging.analyst3,1
+INC01024,2026-09-17 16:45,2026-09-20 14:23,Resolved,Low,Laptop Hardware,Laptop overheating and shutting down,AST-009,Service Desk,service.analyst3,1
+INC01025,2026-09-31 10:00,2026-09-17 18:03,Resolved,P4,hardware,Laptop battery not charging,AST-010,Service Desk,service.analyst1,2
+INC01026,2026-09-18 08:00,2026-09-19 16:13,Resolved,Medium,HW,Laptop overheating and shutting down,AST-009,Service Desk,service.analyst3,1
+INC01027,2026-09-18 12:00,,Resolved,4,Printer,Printer offline for all users,AST-011,Service Desk,service.analyst3,0
+INC01028,2026-09-20 09:00,2026-09-20 20:00,Resolved,P2,Remote access,VPN tunnel drops after 10 minutes,AST-003,Network Ops,network.analyst2,0
+INC01029,2026-09-25 12:15,2026-09-26 08:33,Resolved,Medium,Networking,Intermittent connectivity drops,AST-001,Network Ops,network.analyst1,0
+INC01030,2026-09-26 09:15,2026-09-26 22:23,resolved,Medium,Login / Access,Password reset request,AST-008,Identity Team,identity.analyst3,1
+INC01031,2026-09-26 10:30,2026-09-27 00:06,Resolved,P3,Remote access,VPN authentication timeout,AST-099,Network Ops,network.analyst3,3
+INC01032,2026-09-26 12:15,2026-09-26 16:49,Resolved,High,hardware,Laptop battery not charging,AST-010,Service Desk,service.analyst2,0
+INC01033,2026-09-28 09:00,2026-09-28 15:30,Resolved,High,vpn issue,VPN tunnel drops after 10 minutes,AST-003,Network Ops,network.analyst2,2
+INC01034,2026-10-01 16:15,2026-10-01 22:09,Resolved,P1,Misc,Users report slow network on floor 2,AST-012,Network Ops,network.analyst3,0
+INC01035,2026-10-04 10:00,2026-10-04 23:20,Resolved,p3,E-mail,Outlook not syncing mailbox,AST-004,Messaging,messaging.analyst1,0
+INC01036,2026-10-04 15:00,2026-10-04 20:28,Resolved,2,HW,Laptop battery not charging,AST-009,Service Desk,service.analyst1,1
+INC01037,2026-10-07 11:00,2026-10-07 16:20,Resolved,1,Access,MFA prompt not received,AST-008,Identity Team,identity.analyst2,0
+INC01038,2026-10-08 17:30,,Resolved,3,hardware,Laptop screen flickering,AST-010,Service Desk,service.analyst3,0
+INC01039,2026-10-09 08:15,2026-10-09 11:14,Resolved,3,Remote access,VPN authentication timeout,AST-003,Network Ops,network.analyst2,1
+INC01040,2026-10-09 13:45,2026-10-10 11:51,Resolved,p3,Printer,Print jobs stuck in queue,AST-011,Service Desk,service.analyst2,0
+INC01041,2026-10-10 16:00,2026-10-10 23:24,Closed,P3,Application,HR portal login page slow,AST-007,Applications,applications.analyst1,2
+INC01042,2026-10-11 09:00,2026-10-11 19:00,Resolved,high,Remote Access,VPN tunnel drops after 10 minutes,AST-003,Network Ops,network.analyst2,0
+INC01043,2026-10-11 17:30,2026-10-12 00:18,Resolved,2,HW,Laptop battery not charging,AST-009,Service Desk,service.analyst1,0
+INC01044,2026-10-14 11:30,2026-10-15 15:17,Resolved,Medium,Access,New starter cannot log in,AST-008,Identity Team,identity.analyst3,0
+INC01045,2026-10-17 09:30,2026-10-17 06:30,Resolved,p3,Network,Intermittent connectivity drops,AST-002,Network Ops,network.analyst3,1
+INC01046,2026-10-21 13:45,2026-10-22 00:53,Resolved,Medium,Other,Delayed delivery of external mail,AST-004,Messaging,messaging.analyst1,0
+INC01047,2026-10-21 15:30,2026-10-22 15:45,Resolved,P3,Mail,Outlook not syncing mailbox,AST-004,Messaging,messaging.analyst3,0
+INC01048,2026-10-22 10:45,2026-10-23 10:03,Resolved,P3,Network,WiFi disconnects every few minutes,AST-001,Network Ops,network.analyst1,0
+INC01049,2026-10-24 12:15,2026-10-24 18:45,Resolved,P1,HW,Laptop screen flickering,AST-009,Service Desk,service.analyst3,0
+INC01050,2026-10-24 12:45,,Resolved,3,App,HR portal login page slow,AST-007,Applications,applications.analyst2,2
+INC01051,2026-10-25 09:45,2026-10-26 00:04,Resolved,p3,hardware,Laptop overheating and shutting down,,Service Desk,service.analyst1,0
+INC01052,2026-10-26 08:30,2026-10-26 15:29,Resolved,P2,Login / Access,MFA prompt not received,AST-008,Identity Team,identity.analyst3,1
+INC01053,2026-10-27 13:15,2026-10-28 11:31,Closed,p3,Database,SQL node high CPU,AST-005,Database Team,database.analyst1,0
+INC01054,2026-10-27 17:45,2026-10-28 02:34,Resolved,P2,SW,HR portal login page slow,AST-007,Applications,applications.analyst2,0
+INC01055,2026-10-28 09:45,2026-10-28 20:20,Resolved,P2,SW,HR portal page returns error 500,AST-007,Applications,applications.analyst2,1
+INC01056,2026-10-29 10:00,,In Progress,P3,Application,ERP report generation fails,AST-006,Applications,applications.analyst1,1
+INC01057,2026-10-30 09:00,,Open,2,SQL,Database backup job failed,AST-005,Database Team,database.analyst3,1
+INC01058,2026-10-30 14:30,,Open,Low,HW,Laptop overheating and shutting down,AST-009,Service Desk,service.analyst3,0
+INC01059,2026-10-31 08:00,2026-10-31 14:21,Resolved,P4,Laptop Hardware,Laptop battery not charging,AST-010,Service Desk,service.analyst1,1
+INC01003,2026-09-05 08:30,2026-09-05 15:17,Resolved,Critical,Connectivity,WiFi disconnects every few minutes,AST-001,Network Ops,network.analyst1,0
+INC01019,2026-09-15 08:15,2026-09-16 19:42,Resolved,Medium,Login / Access,MFA prompt not received,AST-008,Identity Team,identity.analyst3,3
+INC01042,2026-10-11 09:00,2026-10-11 19:00,Resolved,high,Remote Access,VPN tunnel drops after 10 minutes,AST-003,Network Ops,network.analyst2,0
+INC01012,2026-09-11 13:30,,Resolved,P2,IAM,Password reset request,AST-008,Identity Team,,1

@@ -1,0 +1,13 @@
+{% macro sla_badge(status) -%}
+  {%- set cls = {'Met': 'good', 'Breached': 'bad', 'Unknown': 'unknown',
+                 'Open - within SLA': 'open', 'Open - breached': 'bad'}[status] | default('unknown') -%}
+  {%- set icon = {'good': '✓', 'bad': '✕', 'unknown': '?', 'open': '◷'}[cls] -%}
+  <span class="badge badge-{{ cls }}"><span aria-hidden="true">{{ icon }}</span> {{ status }}</span>
+{%- endmacro %}
+
+{% macro pct_bar(value) -%}
+  {%- if value is none -%}<span class="muted">—</span>
+  {%- else -%}
+  <span class="pct"><span class="pct-track"><span class="pct-fill {{ 'low' if value < 50 }}" style="width: {{ value }}%"></span></span>{{ '%.0f' | format(value) }}%</span>
+  {%- endif -%}
+{%- endmacro %}

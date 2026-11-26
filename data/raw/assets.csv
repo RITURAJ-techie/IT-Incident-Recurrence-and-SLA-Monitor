@@ -1,0 +1,14 @@
+asset_id,asset_name,asset_type,service,location,criticality,owner_team
+AST-001,Core Switch A,Network Switch,Corporate Network,HQ-DC1,High,Network Ops
+AST-002,Core Switch B,Network Switch,Corporate Network,HQ-DC1,High,Network Ops
+AST-003,VPN Gateway,Firewall/VPN,Remote Access,HQ-DC1,High,Network Ops
+AST-004,Exchange Server 01,Server,Email,HQ-DC1,HIGH,Messaging
+AST-005,SQL Cluster Node 1,Database Server,ERP,DC2,High,Database Team
+AST-006,ERP App Server,Server,ERP,DC2,Medium,Applications
+AST-007,HR Portal Web Server,Server,HR Portal,DC2,Medium,Applications
+AST-008,Active Directory DC1,Server,Identity & Access,HQ-DC1,High,Identity Team
+AST-009,Laptop Pool - Finance,Laptop,End User Computing,Floor 3,Low,Service Desk
+AST-010,Laptop Pool - Sales,Laptop,End User Computing,Floor 2,low ,Service Desk
+AST-011,Printer Floor 2,Printer,Printing,Floor 2,Low,Service Desk
+AST-012,WiFi Controller,Network Controller,Corporate Network,,Medium,Network Ops
+AST-004,Exchange Server 01,Server,Email,HQ-DC1,High,Messaging

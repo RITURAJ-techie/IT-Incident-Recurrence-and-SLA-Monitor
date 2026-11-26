@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% from "_macros.html" import sla_badge %}
+{% block title %}Tickets{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Incident tickets <span class="count">{{ rows | length }}</span></h1>
+    <p class="muted">
+      {% if f.key %}Recurrence group <strong>{{ f.key }}</strong>.{% endif %}
+      {% if f.recurring == '1' %}Showing only recurring tickets.{% endif %}
+      {% if f.change == '1' %}Showing tickets opened within {{ change_hours }} h of a change on the same asset.{% endif %}
+      {% if not active %}All tickets, newest first.{% endif %}
+    </p>
+  </div>
+  <a class="btn btn-primary" href="{{ url_for('ticket_new') }}">+ New ticket</a>
+</div>
+
+<form class="filters card" method="get">
+  <input type="search" name="q" value="{{ f.q }}" placeholder="Search id, description, raw category…" aria-label="Search">
+  <select name="category" aria-label="Category"><option value="">All categories</option>
+    {% for c in categories + ['Uncategorized'] %}<option {{ 'selected' if f.category == c }}>{{ c }}</option>{% endfor %}</select>
+  <select name="priority" aria-label="Priority"><option value="">All priorities</option>
+    {% for p in priorities %}<option {{ 'selected' if f.priority == p }}>{{ p }}</option>{% endfor %}</select>
+  <select name="service" aria-label="Service"><option value="">All services</option>
+    {% for s in services %}<option {{ 'selected' if f.service == s }}>{{ s }}</option>{% endfor %}</select>
+  <select name="asset_id" aria-label="Asset"><option value="">All assets</option>
+    {% for a in assets %}<option value="{{ a.asset_id }}" {{ 'selected' if f.asset_id == a.asset_id }}>{{ a.asset_id }} · {{ a.asset_name }}</option>{% endfor %}</select>
+  <select name="sla_status" aria-label="SLA status"><option value="">Any SLA status</option>
+    {% for s in sla_statuses %}<option {{ 'selected' if f.sla_status == s }}>{{ s }}</option>{% endfor %}</select>
+  <label class="check"><input type="checkbox" name="recurring" value="1" {{ 'checked' if f.recurring == '1' }}> Recurring only</label>
+  {% if f.key %}<input type="hidden" name="key" value="{{ f.key }}">{% endif %}
+  {% if f.change %}<input type="hidden" name="change" value="{{ f.change }}">{% endif %}
+  <button class="btn btn-primary">Filter</button>
+  {% if active %}<a class="btn" href="{{ url_for('tickets') }}">Clear</a>{% endif %}
+</form>
+
+<div class="card table-wrap">
+<table>
+  <thead><tr>
+    <th>Ticket</th><th>Opened</th><th>Pri.</th><th>Category <span class="muted">(raw)</span></th>
+    <th>Description</th><th>Asset / service</th><th>Status</th><th class="r">Res. hrs</th><th>SLA</th><th>Flags</th>
+  </tr></thead>
+  <tbody>
+  {% for t in rows %}
+    <tr class="clickable" onclick="location.href='{{ url_for('ticket_detail', ticket_id=t.ticket_id) }}'">
+      <td><a href="{{ url_for('ticket_detail', ticket_id=t.ticket_id) }}">{{ t.ticket_id }}</a></td>
+      <td class="nowrap">{{ t.opened_at | dt }}</td>
+      <td><span class="pri pri-{{ t.priority }}">{{ t.priority }}</span></td>
+      <td>{{ t.category }}{% if t.category_raw and t.category_raw != t.category %} <span class="muted">({{ t.category_raw }})</span>{% endif %}</td>
+      <td>{{ t.short_description }}</td>
+      <td>{{ t.asset_name }}<br><span class="muted">{{ t.service }}</span></td>
+      <td>{{ t.status }}</td>
+      <td class="r">{{ t.resolution_hours | num }}</td>
+      <td class="nowrap">{{ sla_badge(t.sla_status) }}</td>
+      <td class="tags">
+        {% if t.is_recurring %}<span class="tag tag-rec" title="Repeat of {{ t.previous_ticket_id }}">↻ recurring</span>{% endif %}
+        {% if t.linked_change_id %}<span class="tag" title="Opened {{ t.hours_after_change | num }} h after {{ t.linked_change_id }}">⚙ {{ t.linked_change_id }}</span>{% endif %}
+        {% for fl in (t.data_quality_flags or '').split(';') if fl %}<span class="tag tag-dq">{{ fl | replace('_', ' ') }}</span>{% endfor %}
+      </td>
+    </tr>
+  {% else %}
+    <tr><td colspan="10" class="muted">No tickets match these filters.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

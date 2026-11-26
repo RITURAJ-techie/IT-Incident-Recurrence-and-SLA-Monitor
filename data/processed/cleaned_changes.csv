@@ -1,0 +1,10 @@
+change_id,asset_id,change_type,summary,implemented_at,state
+CHG2001,AST-003,Normal,VPN gateway firmware upgrade 9.2 -> 9.4,2026-09-15 06:00,Implemented
+CHG2002,AST-004,Standard,Exchange cumulative update CU14,2026-09-05 22:00,Implemented
+CHG2003,AST-001,Normal,Core switch A VLAN re-numbering,2026-09-20 21:00,Implemented
+CHG2004,AST-006,Normal,ERP release 4.7 deployment,2026-10-03 20:00,Implemented
+CHG2005,AST-008,Standard,Password policy GPO update,2026-09-28 19:00,Implemented
+CHG2006,AST-005,Emergency,SQL node patch for CVE fix,2026-10-10 23:00,Implemented
+CHG2007,AST-012,Standard,WiFi controller certificate renewal,,Implemented
+CHG2008,AST-003,Emergency,VPN gateway rollback to 9.2,2026-10-11 05:00,Implemented
+CHG2009,AST-011,Standard,Printer driver update,2026-10-21 18:00,Cancelled

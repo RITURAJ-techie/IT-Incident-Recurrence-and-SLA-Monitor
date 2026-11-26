@@ -1,0 +1,88 @@
+{
+  "_note": "Saved/mock response of GET /api/now/table/change_request - used so the project runs offline.",
+  "source": "mock-itsm-change-api",
+  "retrieved_at": "2026-11-01T00:00:00Z",
+  "result_count": 10,
+  "result": [
+    {
+      "change_id": "CHG2001",
+      "asset_id": "AST-003",
+      "change_type": "Normal",
+      "summary": "VPN gateway firmware upgrade 9.2 -> 9.4",
+      "implemented_at": "2026-09-15 06:00",
+      "state": "Implemented"
+    },
+    {
+      "change_id": "CHG2002",
+      "asset_id": "AST-004",
+      "change_type": "Standard",
+      "summary": "Exchange cumulative update CU14",
+      "implemented_at": "2026-09-05 22:00",
+      "state": "Implemented"
+    },
+    {
+      "change_id": "CHG2003",
+      "asset_id": "AST-001",
+      "change_type": "Normal",
+      "summary": "Core switch A VLAN re-numbering",
+      "implemented_at": "2026-09-20 21:00",
+      "state": "Implemented"
+    },
+    {
+      "change_id": "CHG2004",
+      "asset_id": "AST-006",
+      "change_type": "Normal",
+      "summary": "ERP release 4.7 deployment",
+      "implemented_at": "2026-10-03 20:00",
+      "state": "Implemented"
+    },
+    {
+      "change_id": "CHG2005",
+      "asset_id": "AST-008",
+      "change_type": "Standard",
+      "summary": "Password policy GPO update",
+      "implemented_at": "2026-09-28 19:00",
+      "state": "Implemented"
+    },
+    {
+      "change_id": "CHG2006",
+      "asset_id": "AST-005",
+      "change_type": "Emergency",
+      "summary": "SQL node patch for CVE fix",
+      "implemented_at": "2026-10-10 23:00",
+      "state": "Implemented"
+    },
+    {
+      "change_id": "CHG2007",
+      "asset_id": "AST-012",
+      "change_type": "Standard",
+      "summary": "WiFi controller certificate renewal",
+      "implemented_at": "",
+      "state": "Implemented"
+    },
+    {
+      "change_id": "CHG2008",
+      "asset_id": "AST-003",
+      "change_type": "Emergency",
+      "summary": "VPN gateway rollback to 9.2",
+      "implemented_at": "2026-10-11 05:00",
+      "state": "Implemented"
+    },
+    {
+      "change_id": "CHG2009",
+      "asset_id": "AST-011",
+      "change_type": "Standard",
+      "summary": "Printer driver update",
+      "implemented_at": "2026-10-21 18:00",
+      "state": "Cancelled"
+    },
+    {
+      "change_id": "CHG2001",
+      "asset_id": "AST-003",
+      "change_type": "Normal",
+      "summary": "VPN gateway firmware upgrade 9.2 -> 9.4",
+      "implemented_at": "2026-09-15 06:00",
+      "state": "Implemented"
+    }
+  ]
+}

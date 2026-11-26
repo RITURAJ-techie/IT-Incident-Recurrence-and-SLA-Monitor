@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}{{ 'New ticket' if mode == 'new' else 'Edit ' ~ ticket_id }}{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('ticket_detail', ticket_id=ticket_id) if mode == 'edit' else url_for('tickets') }}">← Back</a></p>
+<h1>{{ 'New incident ticket' if mode == 'new' else 'Edit ' ~ ticket_id }}</h1>
+<p class="muted">The same cleaning rules as the import are applied: free-text categories such as “E-mail” or “VPN” are
+  standardized, dates are checked, and resolution time cannot be before the open time.</p>
+
+{% if errors %}
+<div class="flash flash-error" role="alert"><strong>Please fix the following:</strong>
+  <ul>{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>
+{% endif %}
+
+<form method="post" class="card form">
+  <label class="span-2">Short description *
+    <input name="short_description" required minlength="5" value="{{ form.short_description or '' }}"></label>
+
+  <label>Category (type any label)
+    <input name="category" list="category-list" value="{{ form.category or '' }}" placeholder="e.g. Network, E-mail, VPN">
+    <datalist id="category-list">{% for c in categories %}<option value="{{ c }}">{% endfor %}</datalist>
+    <small class="muted">Leave blank to infer it from the description.</small></label>
+
+  <label>Priority *
+    <select name="priority">{% for p in priorities %}<option {{ 'selected' if form.priority == p }}>{{ p }}</option>{% endfor %}</select></label>
+
+  <label>Status *
+    <select name="status">{% for s in statuses %}<option {{ 'selected' if form.status == s }}>{{ s }}</option>{% endfor %}</select></label>
+
+  <label>Asset
+    <select name="asset_id"><option value="">— none / unknown —</option>
+      {% for a in assets %}<option value="{{ a.asset_id }}" {{ 'selected' if form.asset_id == a.asset_id }}>{{ a.asset_id }} · {{ a.asset_name }} ({{ a.service }})</option>{% endfor %}
+    </select></label>
+
+  <label>Opened at * <small class="muted">YYYY-MM-DD HH:MM</small>
+    <input name="opened_at" required value="{{ form.opened_at or '' }}" placeholder="2026-10-01 09:30"></label>
+
+  <label>Resolved at <small class="muted">blank if still open</small>
+    <input name="resolved_at" value="{{ form.resolved_at or '' }}" placeholder="2026-10-01 13:00"></label>
+
+  <label>Assignment group
+    <input name="assignment_group" value="{{ form.assignment_group or '' }}"></label>
+
+  <label>Assigned to
+    <input name="assigned_to" value="{{ form.assigned_to or '' }}"></label>
+
+  <label>Reassignment count
+    <input name="reassignment_count" type="number" min="0" step="1" value="{{ form.reassignment_count if form.reassignment_count is not none else '' }}"></label>
+
+  <div class="span-2 form-actions">
+    <button class="btn btn-primary">{{ 'Create ticket' if mode == 'new' else 'Save changes' }}</button>
+  </div>
+</form>
+{% endblock %}

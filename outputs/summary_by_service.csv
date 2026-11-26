@@ -1,0 +1,10 @@
+service,tickets,met,breached,unknown,open,compliance_pct,avg_resolution_hours,recurring
+End User Computing,11,6,2,2,1,75.0,18.4,2
+Corporate Network,9,3,4,2,0,42.9,16.4,1
+Identity & Access,9,3,5,1,0,37.5,29.4,5
+Email,7,4,3,0,0,57.1,21.8,4
+Remote Access,6,3,3,0,0,50.0,7.2,3
+HR Portal,5,2,2,1,0,50.0,12.6,2
+ERP,5,2,1,0,2,66.7,35.3,1
+Printing,4,2,1,1,0,66.7,47.8,2
+Unknown,2,2,0,0,0,100.0,14.0,0
