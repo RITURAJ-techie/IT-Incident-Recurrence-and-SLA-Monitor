@@ -59,19 +59,33 @@ def inside_project_venv() -> bool:
     return Path(sys.prefix).resolve() == VENV_DIR.resolve()
 
 
+def packages_importable(python: str) -> bool:
+    """True if the given interpreter can import every package the app needs."""
+    check = "import flask, pandas, matplotlib, pytest"
+    return subprocess.call([python, "-c", check], stdout=subprocess.DEVNULL,
+                           stderr=subprocess.DEVNULL) == 0
+
+
+def ensure_requirements(python: str) -> None:
+    """Install requirements.txt into ``python`` when missing or out of date."""
+    wanted = hashlib.sha256(REQUIREMENTS.read_bytes()).hexdigest()
+    up_to_date = STAMP.exists() and STAMP.read_text().strip() == wanted
+    if up_to_date and packages_importable(python):
+        return
+    print("» Installing dependencies from requirements.txt (first run only) ...")
+    subprocess.check_call([python, "-m", "pip", "install", "--quiet", "--upgrade", "pip"])
+    subprocess.check_call([python, "-m", "pip", "install", "--quiet", "-r", str(REQUIREMENTS)])
+    STAMP.parent.mkdir(parents=True, exist_ok=True)
+    STAMP.write_text(wanted)
+
+
 def ensure_venv() -> None:
     """Create .venv and install requirements if needed, then re-launch inside it."""
     if not venv_python().exists():
         print("» Creating virtual environment in .venv/ (first run only) ...")
         venv.EnvBuilder(with_pip=True, clear=True).create(VENV_DIR)
 
-    wanted = hashlib.sha256(REQUIREMENTS.read_bytes()).hexdigest()
-    if not STAMP.exists() or STAMP.read_text().strip() != wanted:
-        print("» Installing dependencies from requirements.txt (first run only) ...")
-        py = str(venv_python())
-        subprocess.check_call([py, "-m", "pip", "install", "--quiet", "--upgrade", "pip"])
-        subprocess.check_call([py, "-m", "pip", "install", "--quiet", "-r", str(REQUIREMENTS)])
-        STAMP.write_text(wanted)
+    ensure_requirements(str(venv_python()))
 
     # Re-run this same script with the venv's interpreter.
     result = subprocess.call([str(venv_python()), str(Path(__file__).resolve()), *sys.argv[1:]])
@@ -84,8 +98,13 @@ def main() -> None:
         sys.exit(f"Python {MIN_PYTHON[0]}.{MIN_PYTHON[1]}+ is required "
                  f"(you have {sys.version.split()[0]}).")
     args = parse_args()
-    if not args.no_venv and not inside_project_venv():
-        ensure_venv()  # never returns
+    if not args.no_venv:
+        if inside_project_venv():
+            # .venv is already active (e.g. activated by hand) - just make sure
+            # the packages are installed in it.
+            ensure_requirements(sys.executable)
+        else:
+            ensure_venv()  # never returns
 
     sys.path.insert(0, str(ROOT / "src"))
     os.chdir(ROOT)
